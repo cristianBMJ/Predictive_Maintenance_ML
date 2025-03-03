@@ -1,0 +1,15 @@
+artifact_uri: file:///home/cris/workaplace/Predictive_Maintenance_ML/mlruns/0/bd6a785d8afa460a8503558a01276d92/artifacts
+end_time: 1740173952287
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: bd6a785d8afa460a8503558a01276d92
+run_uuid: bd6a785d8afa460a8503558a01276d92
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1740173952242
+status: 3
+tags: []
+user_id: cris

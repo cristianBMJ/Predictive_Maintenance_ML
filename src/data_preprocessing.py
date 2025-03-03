@@ -35,6 +35,6 @@ def load_and_process_data():
 
     gt['TAT_TIT_Ratio'] = gt['TAT'] / gt['TIT']
 
-    gt.to_csv('data/processed_data.csv', index=False)
+    # gt.to_csv('""" """  """ """data/processed_data.csv', index=False)
 
     return gt

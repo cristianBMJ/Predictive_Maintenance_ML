@@ -17,13 +17,37 @@ import os
 print("Current Working Directory:", os.getcwd())
 
 class ModelTrainer:
+    """
+    A class to train machine learning models for predicting turbine energy yield.
+
+    Attributes:
+        data_path (str): Path to the CSV file containing the training data.
+        data (DataFrame): Loaded data from the CSV file.
+        X (DataFrame): Features for training.
+        y (Series): Target variable for training.
+        X_train (DataFrame): Training features.
+        X_test (DataFrame): Testing features.
+        y_train (Series): Training target.
+        y_test (Series): Testing target.
+    """
+
+
     def __init__(self, data_path):
+        """
+        Initializes the ModelTrainer with the data path.
+
+        Parameters:
+            data_path (str): Path to the CSV file containing the training data.
+        """
         self.data = pd.read_csv(data_path)
         self.X = self.data.drop(columns=['TEY'])
         self.y = self.data['TEY']
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=0.2, random_state=42)
 
     def train_random_forest(self):
+        """
+        Trains a Random Forest model and evaluates its performance.
+        """
         model = RandomForestRegressor(n_estimators=100, random_state=42)
         model.fit(self.X_train, self.y_train)
         self.evaluate(model)
@@ -54,5 +78,5 @@ if __name__ == "__main__":
     trainer.train_xgboost()
     # trainer.train_neural_network()
     mlflow.end_run()
-    print('\n Done')
+    print('\nDone')
 #/home/cris/workaplace/Predictive_Maintenance_ML/data/processed_data.csv
