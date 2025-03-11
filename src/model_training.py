@@ -83,8 +83,6 @@ class ModelTrainer:
         mlflow.log_metric(f"R2 Score {name} ", r2)
 
     def evaluate_nn(self, model):
-
-
         # Evaluate
         with torch.no_grad():
             y_pred = model(self.X_test).numpy()
@@ -137,6 +135,12 @@ class ModelTrainer:
 
 # Usage
 if __name__ == "__main__":
+    # Set the tracking URI to the SQLite database
+    mlflow.set_tracking_uri("sqlite:///mlflow.db")
+
+# Set the experiment name
+    mlflow.set_experiment("Predictive Maintenance")
+
     mlflow.start_run()
     trainer = ModelTrainer("data/processed_data.csv")
     trainer.train_random_forest()
@@ -144,5 +148,5 @@ if __name__ == "__main__":
     trainer.train_neural_network()
 
     mlflow.end_run()
-    print('\nDone')
+    print('\n Done')
 #/home/cris/workaplace/Predictive_Maintenance_ML/data/processed_data.csv
