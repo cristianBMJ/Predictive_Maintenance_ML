@@ -45,7 +45,7 @@ class ModelTrainer:
     """
 
 
-    def __init__(self, data_path):
+    def __init__(self, data_path, target = 'TEY'):
         """
         Initializes the ModelTrainer with the data path.
 
@@ -53,8 +53,8 @@ class ModelTrainer:
             data_path (str): Path to the CSV file containing the training data.
         """
         self.data = pd.read_csv(data_path)
-        self.X = self.data.drop(columns=['TEY'])
-        self.y = self.data['TEY']
+        self.X = self.data.drop(columns=[target])
+        self.y = self.data[target]
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=0.2, random_state=42)
 
     def train_random_forest(self):
