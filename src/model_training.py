@@ -23,7 +23,7 @@ from data_preprocessing import load_and_process_data  # Import the function
 
 from models.neural_model import SimpleModel, RMSELoss
 
-from model_evaluation import save_model_if_better
+from model_evaluation import save_model_if_better, save_model_if_better_mlflow
 
 data = load_and_process_data()
 
@@ -83,9 +83,11 @@ class ModelTrainer:
         r2 = r2_score(self.y_test, y_pred)
         print('RMSE:', rmse)
         print('R2 Score:', r2 )
-        mlflow.log_metric(f"RMSE {name} ", rmse)
-        mlflow.log_metric(f"R2 Score {name} ", r2)
-        save_model_if_better(model,  rmse, y_true = self.y_test, y_pred =  y_pred, name=self.name )
+        # mlflow.log_metric(f"RMSE {name} ", rmse)
+        # mlflow.log_metric(f"R2 Score {name} ", r2)
+        save_model_if_better(model,  rmse, y_true = self.y_test, y_pred =  y_pred, name=name )
+        save_model_if_better_mlflow(model,  rmse, y_true = self.y_test, y_pred =  y_pred, name=name )
+
 
     def evaluate_nn(self, model):
         # Evaluate
@@ -144,9 +146,9 @@ if __name__ == "__main__":
     mlflow.set_tracking_uri("sqlite:///mlflow.db")
 
 # Set the experiment name
-    mlflow.set_experiment("Predictive Maintenance")
+    mlflow.set_experiment("models")
 
-    mlflow.start_run()
+    # mlflow.start_run()
     trainer = ModelTrainer("data/processed_data.csv")
     trainer.train_random_forest()
     trainer.train_xgboost()

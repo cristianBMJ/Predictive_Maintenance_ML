@@ -3,7 +3,7 @@
 
 import joblib
 import os
-import json
+import json 
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -147,10 +147,11 @@ def save_model_if_better_mlflow(model, rmse, model_version="1.0.0", y_true=None,
     y_pred (array-like): Predicted values.
     name (str): Name identifier for the model.
     """
-    mlflow.set_experiment(f"{name}_model_tracking")
+    # mlflow.set_experiment(f"{name}_model_tracking")
 
-    with mlflow.start_run():
+    with mlflow.start_run( run_name=name):
         # Log metrics
+        mlflow.set_tag("model_name", name)
         mlflow.log_param("version", model_version)
         mlflow.log_metric("rmse", rmse)
         
@@ -160,6 +161,7 @@ def save_model_if_better_mlflow(model, rmse, model_version="1.0.0", y_true=None,
         
         # Log model
         mlflow.sklearn.log_model(model, artifact_path="model")
+#        mlflow.sklearn.log_model(model, artifact_path="model", input_example=input_example)
 
         print(f"✅ Model saved in MLflow with RMSE: {rmse}")
 
