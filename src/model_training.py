@@ -23,7 +23,7 @@ from data_preprocessing import load_and_process_data  # Import the function
 
 from models.neural_model import SimpleModel, RMSELoss
 
-from model_evaluation import save_model_if_better, save_model_if_better_mlflow
+from model_evaluation import save_model, save_model_mlflow
 
 data = load_and_process_data()
 
@@ -86,8 +86,8 @@ class ModelTrainer:
         # mlflow.log_metric(f"RMSE {name} ", rmse)
         # mlflow.log_metric(f"R2 Score {name} ", r2)
         input_example = self.X_train.loc[[0]]
-        save_model_if_better(model,  rmse, y_true = self.y_test, y_pred =  y_pred, name=name )
-        save_model_if_better_mlflow(model,  rmse, y_true = self.y_test, y_pred = y_pred, name=name, input_example=input_example )
+        save_model(model,  rmse, y_true = self.y_test, y_pred =  y_pred, name=name )
+        save_model_mlflow(model,  rmse, y_true = self.y_test, y_pred = y_pred, name=name, input_example=input_example )
 
 
     def evaluate_nn(self, model):

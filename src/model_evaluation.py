@@ -48,48 +48,8 @@ def plot_predictions(y_true, y_pred):
     plt.grid()
     plt.show()
 
-## new version
-
-
-
-# def save_model_if_better(model,  rmse , model_version="1.0.0", target=[], name='x'):
-#     """
-#     Save the model if it has a better RMSE than the previous model.
-
-#     Parameters:
-#     model: The trained model to save.
-#     rmse (float): The RMSE of the current model.
-#     model_version (str): The version of the model.
-#     """
-#     previous_rmse = float('inf')  # Initialize to a high value
-#     model_filename = f"models/model_{ name }_v{model_version}.pkl"
-#     metadata_filename = f"{model_filename}_metadata.json"
-
-#     # Check if a previous model exists
-#     if os.path.exists(metadata_filename):
-#         previous_metadata = joblib.load(metadata_filename)
-#         previous_rmse = previous_metadata['metrics']['rmse']
-
-#     # Save the model if the current RMSE is better
-#     if rmse < previous_rmse:
-#         joblib.dump(model, model_filename)
-#         # Save metadata
-#         metadata = {
-#             "version": model_version,
-#             "metrics": {
-#                 "rmse": rmse,
-#                 "r2_score": r2_score(target[0], target[1])  # Assuming y_true and y_pred are available
-#             }
-#         }
-#         with open(metadata_filename, "w") as f:
-#             json.dump(metadata, f)
-#         print(f"Model saved as {model_filename} with RMSE: {rmse}")
-#     else:
-#         print(f"Model not saved. Current RMSE: {rmse} is not better than previous RMSE: {previous_rmse}.") 
-
-
-
-def save_model_if_better(model, rmse, model_version="1.0.0", y_true=None, y_pred=None, name="x"):
+#
+def save_model(model, rmse, model_version="1.0.0", y_true=None, y_pred=None, name="x"):
     """
     Save the model if it has a better RMSE than the previous model.
 
@@ -135,7 +95,7 @@ def save_model_if_better(model, rmse, model_version="1.0.0", y_true=None, y_pred
         print(f"❌ Model not saved. Current RMSE: {rmse} is not better than previous RMSE: {previous_rmse}.")
 
 
-def save_model_if_better_mlflow(model, rmse, model_version="1.0.0", y_true=None, y_pred=None, name="x", input_example= None):
+def save_model_mlflow(model, rmse, model_version="1.0.0", y_true=None, y_pred=None, name="x", input_example= None):
     """
     Save the model using MLflow if it has a better RMSE than the previous version.
 
