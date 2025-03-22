@@ -90,7 +90,7 @@ class ModelTrainer:
         save_model_mlflow(model,  rmse, y_true = self.y_test, y_pred = y_pred, name=name, input_example=input_example )
 
 
-    def evaluate_nn(self, model):
+    def evaluate_nn(self, model, name):
         # Evaluate
         with torch.no_grad():
             y_pred = model(self.X_test).numpy()
@@ -98,9 +98,9 @@ class ModelTrainer:
         r2 = r2_score(self.y_test, y_pred)
         print('RMSE:', rmse )
         print('R2 Score:', r2 )
-            # Log metrics with MLflow
-        mlflow.log_metric("RMSE nn ", rmse)
-        mlflow.log_metric("R2 Score nn ", r2)
+        
+        save_model_mlflow(model,  rmse, y_true = self.y_test, y_pred = y_pred, name=name,)
+
 
     def train_neural_network(self):
 
@@ -139,7 +139,7 @@ class ModelTrainer:
             print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
 
         # Log model with MLflow
-        self.evaluate_nn(model)
+        self.evaluate_nn(model, name="SimpleModel" )
 
 # Usage
 if __name__ == "__main__":
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     trainer = ModelTrainer("data/processed_data.csv")
     trainer.train_random_forest()
     trainer.train_xgboost()
-    # trainer.train_neural_network()
+    trainer.train_neural_network()
 
     mlflow.end_run()
     print('\n Done')
