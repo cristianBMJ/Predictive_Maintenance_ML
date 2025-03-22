@@ -23,6 +23,8 @@ from data_preprocessing import load_and_process_data  # Import the function
 
 from models.neural_model import SimpleModel, RMSELoss
 
+from model_evaluation import save_model_if_better
+
 data = load_and_process_data()
 
 
@@ -45,7 +47,7 @@ class ModelTrainer:
     """
 
 
-    def __init__(self, data_path, target = 'TEY'):
+    def __init__(self, data_path, target = 'TEY', name=''):
         """
         Initializes the ModelTrainer with the data path.
 
@@ -56,6 +58,7 @@ class ModelTrainer:
         self.X = self.data.drop(columns=[target])
         self.y = self.data[target]
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=0.2, random_state=42)
+        self.name = name 
 
     def train_random_forest(self):
         """
@@ -64,6 +67,7 @@ class ModelTrainer:
         model = RandomForestRegressor(n_estimators=100, random_state=42)
         model.fit(self.X_train, self.y_train)
         self.evaluate(model, name="RandomForestRegressor")
+      
 
     def train_xgboost(self):
         """
@@ -78,9 +82,10 @@ class ModelTrainer:
         rmse = mean_squared_error(self.y_test, y_pred, squared=False)
         r2 = r2_score(self.y_test, y_pred)
         print('RMSE:', rmse)
-        print('R2 Score:', )
+        print('R2 Score:', r2 )
         mlflow.log_metric(f"RMSE {name} ", rmse)
         mlflow.log_metric(f"R2 Score {name} ", r2)
+        save_model_if_better(model,  rmse, y_true = self.y_test, y_pred =  y_pred, name=self.name )
 
     def evaluate_nn(self, model):
         # Evaluate
