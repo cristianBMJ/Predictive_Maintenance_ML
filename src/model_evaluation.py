@@ -1,12 +1,15 @@
 # model_evaluation.py
 
+
+import joblib
+import os
+import json
+
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, r2_score
 import mlflow
-import joblib
-import os
-import json
+import mlflow.sklearn
 
 
 def evaluate_model(y_true, y_pred):
@@ -130,3 +133,33 @@ def save_model_if_better(model, rmse, model_version="1.0.0", y_true=None, y_pred
         print(f"✅ Model saved as {model_filename} with RMSE: {rmse}")
     else:
         print(f"❌ Model not saved. Current RMSE: {rmse} is not better than previous RMSE: {previous_rmse}.")
+
+
+def save_model_if_better_mlflow(model, rmse, model_version="1.0.0", y_true=None, y_pred=None, name="x"):
+    """
+    Save the model using MLflow if it has a better RMSE than the previous version.
+
+    Parameters:
+    model: The trained model to save.
+    rmse (float): The RMSE of the current model.
+    model_version (str): The version of the model.
+    y_true (array-like): True target values.
+    y_pred (array-like): Predicted values.
+    name (str): Name identifier for the model.
+    """
+    mlflow.set_experiment(f"{name}_model_tracking")
+
+    with mlflow.start_run():
+        # Log metrics
+        mlflow.log_param("version", model_version)
+        mlflow.log_metric("rmse", rmse)
+        
+        if y_true is not None and y_pred is not None:
+            r2 = r2_score(y_true, y_pred)
+            mlflow.log_metric("r2_score", r2)
+        
+        # Log model
+        mlflow.sklearn.log_model(model, artifact_path="model")
+
+        print(f"✅ Model saved in MLflow with RMSE: {rmse}")
+

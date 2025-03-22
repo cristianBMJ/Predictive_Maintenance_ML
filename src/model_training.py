@@ -150,8 +150,9 @@ if __name__ == "__main__":
     trainer = ModelTrainer("data/processed_data.csv")
     trainer.train_random_forest()
     trainer.train_xgboost()
-    trainer.train_neural_network()
+    # trainer.train_neural_network()
 
     mlflow.end_run()
     print('\n Done')
 #/home/cris/workaplace/Predictive_Maintenance_ML/data/processed_data.csv
+
