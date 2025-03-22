@@ -135,7 +135,7 @@ def save_model_if_better(model, rmse, model_version="1.0.0", y_true=None, y_pred
         print(f"❌ Model not saved. Current RMSE: {rmse} is not better than previous RMSE: {previous_rmse}.")
 
 
-def save_model_if_better_mlflow(model, rmse, model_version="1.0.0", y_true=None, y_pred=None, name="x"):
+def save_model_if_better_mlflow(model, rmse, model_version="1.0.0", y_true=None, y_pred=None, name="x", input_example= None):
     """
     Save the model using MLflow if it has a better RMSE than the previous version.
 
@@ -160,7 +160,7 @@ def save_model_if_better_mlflow(model, rmse, model_version="1.0.0", y_true=None,
             mlflow.log_metric("r2_score", r2)
         
         # Log model
-        mlflow.sklearn.log_model(model, artifact_path="model")
+        mlflow.sklearn.log_model(model, artifact_path="model", input_example = input_example)
 #        mlflow.sklearn.log_model(model, artifact_path="model", input_example=input_example)
 
         print(f"✅ Model saved in MLflow with RMSE: {rmse}")
