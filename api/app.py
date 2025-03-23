@@ -1,22 +1,18 @@
 # app.py
-# streamlit_app.py
-import streamlit as st
-import requests
+from flask import Flask, request, jsonify
+import joblib
 
-st.title("Predictive Maintenance Model")
+app = Flask(__name__)
 
-# Input fields for features
-feature1 = st.number_input("Feature 1")
-feature2 = st.number_input("Feature 2")
-# Add more input fields as needed
+# Load your model (make sure the path is correct)
+model = joblib.load("models/model.pkl")
 
-if st.button("Predict"):
-    # Prepare the data for the API
-    features = [feature1, feature2]  # Add all features here
-    response = requests.post("http://127.0.0.1:5000/predict", json={'features': features})
-    
-    if response.status_code == 200:
-        prediction = response.json()['prediction']
-        st.success(f"Prediction: {prediction}")
-    else:
-        st.error("Error in prediction")
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.get_json(force=True)
+    features = data['features']
+    prediction = model.predict([features])
+    return jsonify({'prediction': prediction[0]})
+
+if __name__ == '__main__':
+    app.run(debug=True)
