@@ -3,15 +3,17 @@ import requests
 
 st.title("Predictive Maintenance Model")
 
+# Initialize a list to hold the features
+features = []
+
 # Input fields for features
-feature1 = st.number_input("Feature 1")
-feature2 = st.number_input("Feature 2")
-# Add more input fields as needed
+for i in range(1, 13):
+    feature_value = st.number_input(f"Feature {i}")  # Get input for each feature
+    features.append(feature_value)  # Append the input value to the features list
 
 if st.button("Predict"):
     # Prepare the data for the API
-    features = [feature1, feature2]  # Add all features here
-    response = requests.post("http://127.0.0.1:5000/predict", json={'features': features})
+    response = requests.post("http://127.0.0.1:5001/predict", json={'features': features})
     
     if response.status_code == 200:
         prediction = response.json()['prediction']

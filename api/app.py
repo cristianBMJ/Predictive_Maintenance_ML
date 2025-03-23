@@ -14,9 +14,9 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json(force=True)
+    print("Received data:", data)  # Add this line to log incoming data
     features = data['features']
     prediction = model.predict([features])
-    return jsonify({'prediction': prediction[0]})
-
+    return jsonify({'prediction': float(prediction[0])})  # Convert to float
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run( port=5001)
