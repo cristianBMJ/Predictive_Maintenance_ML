@@ -14,9 +14,9 @@ This prototype predicts Turbine Energy Yield (TEY) using a machine learning mode
 
 ## Troubleshooting
 
-### Streamlit/python Version Mismatch (3.9.7)
+### - Streamlit/python Version Mismatch (3.9.7)
 
-*Solution*
+*Solution:*
 
 - Install a compatible version (3.9.8) using pyenv
 - Reinstall all dependecies with Poetry
