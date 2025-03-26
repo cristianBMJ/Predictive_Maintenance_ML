@@ -1,28 +1,38 @@
 import streamlit as st
 import requests
+import pandas as pd  # Import pandas to handle data
+
+
+def get_random_row(data):
+    random_row = data.sample(n=1)  # Get a random row from the dataset
+    features = random_row.values.flatten().tolist()  # Flatten the row to a list
+    return features
 
 st.title("Predictive Maintenance Model")
 
-option = st.selectbox("Choose input method:", ["Manual Input", "Select Row", "List"])
+
+# Load your dataset here
+df= pd.read_csv("/home/cris/workaplace/Predictive_Maintenance_ML/data/processed_data.csv")  # Update with your dataset path
+
+data = df.drop( columns='TEY')
+
+option = st.selectbox("Choose input method:", ["Random Input", "Manual Input", "Select Row", "List" ])  # Added "Random Input"
     
-if option == "Manual Input":
-    features = st.text_input("Enter 12 float features as comma-separated values:")
-    st.write( features ) 
-    st.write( features.split(',')[0].strip() ) 
+if option == "Random Input":  # New option for random input
+
+    st.button("Get random row:")
+
+    features = get_random_row(data)
+    st.write("Randomly selected features:", features)  # Display the selected features
 
     if st.button("Predict"):
-        features = [float(x.strip() ) for x in features.split( ',') ]
-
-        # Call your prediction function here
-        #prediction = model.predict([features_list])
         response = requests.post("http://127.0.0.1:5001/predict", json={'features': features})
         
         if response.status_code == 200:
             prediction = response.json()['prediction']
             st.success(f"Prediction: {prediction}")
         else:
-            st.error("Error in prediction:")
-        st.write(f"Prediction: {prediction}")
+            st.error("Error in prediction")
 
 elif option == "Select Row":
     # Implement logic to select a row from a dataset
@@ -39,7 +49,6 @@ elif option == "List":
         features.append(feature_value)  # Append the input value to the features list
 
     if st.button("Predict"):
-        # Prepare the data for the API
         response = requests.post("http://127.0.0.1:5001/predict", json={'features': features})
         
         if response.status_code == 200:
@@ -47,3 +56,19 @@ elif option == "List":
             st.success(f"Prediction: {prediction}")
         else:
             st.error("Error in prediction")
+
+elif option == "Manual Input":
+    features = st.text_input("Enter 12 float features as comma-separated values:")
+    st.write(features) 
+    st.write(features.split(',')[0].strip()) 
+
+    if st.button("Predict"):
+        features = [float(x.strip()) for x in features.split(',')]
+        response = requests.post("http://127.0.0.1:5001/predict", json={'features': features})
+        
+        if response.status_code == 200:
+            prediction = response.json()['prediction']
+            st.success(f"Prediction: {prediction}")
+        else:
+            st.error("Error in prediction:")
+        st.write(f"Prediction: {prediction}")
