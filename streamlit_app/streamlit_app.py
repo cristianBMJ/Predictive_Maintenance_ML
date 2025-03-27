@@ -1,12 +1,15 @@
 import streamlit as st
 import requests
 import pandas as pd  # Import pandas to handle data
-
+import numpy as np
 
 def get_random_row(data):
     random_row = data.sample(n=1)  # Get a random row from the dataset
     features = random_row.values.flatten().tolist()  # Flatten the row to a list
     return features
+
+feature_names = ['AT', 'AP', 'AH', 'AFDP', 'GTEP', 'TIT', 'TAT', 'CDP', 'CO', 'NOX', 'Year', 'TAT_TIT_Ratio']
+
 
 st.title("Predictive Maintenance Model")
 
@@ -16,21 +19,30 @@ df= pd.read_csv("/home/cris/workaplace/Predictive_Maintenance_ML/data/processed_
 
 data = df.drop( columns='TEY')
 
-option = st.selectbox("Choose input method:", ["Random Input", "Manual Input", "Select Row", "List" ])  # Added "Random Input"
+option = st.selectbox("Choose input method:", ["Input From Dataset", "Manual Input", "Select Row", "List" ])  # Added "Random Input"
     
-if option == "Random Input":  # New option for random input
+if option == "Input From Dataset":  # New option for random input
 
     st.button("Get random row:")
-
+    
     features = get_random_row(data)
-    st.write("Randomly selected features:", features)  # Display the selected features
+
+
+    input_data = {name: int(value)  if name == 'Year' 
+                  else value 
+                  for name, value in zip(feature_names, features)}
+
+
+    df = pd.DataFrame(list(input_data.items()), columns=["Features", "Value"])
+    df.set_index( "Features", inplace=True)
+    st.table(df)
 
     if st.button("Predict"):
         response = requests.post("http://127.0.0.1:5001/predict", json={'features': features})
         
         if response.status_code == 200:
             prediction = response.json()['prediction']
-            st.success(f"Prediction: {prediction}")
+            st.success(f"Prediction: {np.around( prediction, 2)}")
         else:
             st.error("Error in prediction")
 
@@ -53,7 +65,7 @@ elif option == "List":
         
         if response.status_code == 200:
             prediction = response.json()['prediction']
-            st.success(f"Prediction: {prediction}")
+            st.success(f"Prediction: {np.around( prediction, 2)}")
         else:
             st.error("Error in prediction")
 
@@ -68,7 +80,6 @@ elif option == "Manual Input":
         
         if response.status_code == 200:
             prediction = response.json()['prediction']
-            st.success(f"Prediction: {prediction}")
+            st.success(f"Prediction: {np.around( prediction, 2) }")
         else:
             st.error("Error in prediction:")
-        st.write(f"Prediction: {prediction}")
