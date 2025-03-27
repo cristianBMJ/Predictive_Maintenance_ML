@@ -48,7 +48,7 @@ def plot_predictions(y_true, y_pred):
     plt.grid()
     plt.show()
 
-#
+# save local model 
 def save_model(model, rmse, model_version="1.0.0", y_true=None, y_pred=None, name="x"):
     """
     Save the model if it has a better RMSE than the previous model.
@@ -94,7 +94,7 @@ def save_model(model, rmse, model_version="1.0.0", y_true=None, y_pred=None, nam
     else:
         print(f"❌ Model not saved. Current RMSE: {rmse} is not better than previous RMSE: {previous_rmse}.")
 
-
+# save model in mlflow
 def save_model_mlflow(model, rmse, model_version="1.0.0", y_true=None, y_pred=None, name="x", input_example= None):
     """
     Save the model using MLflow if it has a better RMSE than the previous version.
@@ -113,14 +113,23 @@ def save_model_mlflow(model, rmse, model_version="1.0.0", y_true=None, y_pred=No
         # Log metrics
         mlflow.set_tag("model_name", name)
         mlflow.log_param("version", model_version)
-        mlflow.log_metric("rmse", rmse)
+       
         
         if y_true is not None and y_pred is not None:
             r2 = r2_score(y_true, y_pred)
-            mlflow.log_metric("r2_score", r2)
+            mlflow.log_metrics(
+                {"r2-score": r2,
+                "rmse": rmse
+                }
+            )
+
         
         # Log model
-        mlflow.sklearn.log_model(model, artifact_path="model", input_example = input_example)
+        mlflow.sklearn.log_model(model,
+                                artifact_path="model",
+                                input_example = input_example,
+                                registered_model_name=name,
+                                )
 #        mlflow.sklearn.log_model(model, artifact_path="model", input_example=input_example)
 
         print(f"✅ Model saved in MLflow with RMSE: {rmse}")

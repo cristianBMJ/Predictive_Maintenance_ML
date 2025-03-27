@@ -147,7 +147,7 @@ if __name__ == "__main__":
     mlflow.set_tracking_uri("sqlite:///mlflow.db")
 
 # Set the experiment name
-    mlflow.set_experiment("models")
+    mlflow.set_experiment("models_include_metric")
 
     # mlflow.start_run()
     trainer = ModelTrainer("data/processed_data.csv")
