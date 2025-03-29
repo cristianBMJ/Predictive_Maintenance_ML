@@ -2,6 +2,7 @@
 
 import sys
 import os
+import logging
 
 # Add the root directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -31,6 +32,9 @@ data = load_and_process_data()
 import os
 print("Current Working Directory:", os.getcwd())
 
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 class ModelTrainer:
     """
     A class to train machine learning models for predicting turbine energy yield.
@@ -54,6 +58,7 @@ class ModelTrainer:
         Parameters:
             data_path (str): Path to the CSV file containing the training data.
         """
+        logging.info("Initializing ModelTrainer with data path: %s", data_path)
         self.data = pd.read_csv(data_path)
         self.X = self.data.drop(columns=[target])
         self.y = self.data[target]
@@ -64,7 +69,8 @@ class ModelTrainer:
         """
         Trains a Random Forest model and evaluates its performance.
         """
-        model = RandomForestRegressor(n_estimators=100, random_state=42)
+        logging.info("Training Random Forest model.")
+        model = RandomForestRegressor(n_estimators=100, )
         model.fit(self.X_train, self.y_train)
         self.evaluate(model, name="RandomForestRegressor")
       
@@ -73,16 +79,19 @@ class ModelTrainer:
         """
         Trains a XGBRegressor model and evaluates its performance.
         """        
-        model = XGBRegressor(n_estimators=100, learning_rate=0.1, random_state=42)
+        model = XGBRegressor(n_estimators=100, learning_rate=0.1, )
         model.fit(self.X_train, self.y_train)
         self.evaluate(model, name="XGBRegressor")
 
     def evaluate(self, model, name):
+        logging.info("Evaluating model: %s", name)
         y_pred = model.predict(self.X_test)
         rmse = mean_squared_error(self.y_test, y_pred, squared=False)
         r2 = r2_score(self.y_test, y_pred)
-        print('RMSE:', rmse)
-        print('R2 Score:', r2 )
+        logging.info('RMSE: %s', rmse)
+        logging.info('R2 Score: %s', r2)
+        print('RMSE: %s', rmse)
+        print('R2 Score: %s', r2)
         # mlflow.log_metric(f"RMSE {name} ", rmse)
         # mlflow.log_metric(f"R2 Score {name} ", r2)
         input_example = self.X_train.loc[[0]]
