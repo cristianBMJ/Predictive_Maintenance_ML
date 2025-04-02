@@ -32,7 +32,7 @@ Ensure that you are using a compatible Python version `>=3.9 and <4.0`. You can 
 
 ### Clone the Repository 
 
-    git clone https://github.com/cristianBMJ/Predictive_Maintenance_ML.git
+    git clone https://github.com/cristianBMJ/mlops-turbine-energy.git
     cd <repository_directory>
 
 
