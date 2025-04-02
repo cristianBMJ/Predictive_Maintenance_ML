@@ -10,7 +10,8 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, r2_score
 import mlflow
 import mlflow.sklearn
-
+import torch
+import mlflow.pytorch 
 
 def evaluate_model(y_true, y_pred):
     """
@@ -125,11 +126,16 @@ def save_model_mlflow(model, rmse, model_version="1.0.0", y_true=None, y_pred=No
 
         
         # Log model
-        mlflow.sklearn.log_model(model,
-                                artifact_path="model",
-                                input_example = input_example,
-                                registered_model_name=name,
-                                )
+        if isinstance(model, torch.nn.Module):  # Check if the model is a PyTorch model
+            mlflow.pytorch.log_model(model,
+                                      artifact_path="model",
+                                      input_example=input_example,
+                                      registered_model_name=name)
+        else:
+            mlflow.sklearn.log_model(model,
+                                     artifact_path="model",
+                                     input_example=input_example,
+                                     registered_model_name=name)
 #        mlflow.sklearn.log_model(model, artifact_path="model", input_example=input_example)
 
         print(f"✅ Model saved in MLflow with RMSE: {rmse}")

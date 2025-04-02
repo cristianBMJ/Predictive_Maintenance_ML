@@ -95,7 +95,7 @@ class ModelTrainer:
         # mlflow.log_metric(f"RMSE {name} ", rmse)
         # mlflow.log_metric(f"R2 Score {name} ", r2)
         input_example = self.X_train.loc[[0]]
-        save_model(model,  rmse, y_true = self.y_test, y_pred =  y_pred, name=name )
+        save_model(model,  rmse, y_true = self.y_test, y_pred =  y_pred, name=name ) # save model local
         save_model_mlflow(model,  rmse, y_true = self.y_test, y_pred = y_pred, name=name, input_example=input_example )
 
 
