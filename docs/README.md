@@ -23,11 +23,11 @@ If you haven't installed Poetry yet, you can do so by running:
 
     curl -sSL https://install.python-poetry.org | python3 -
 
-Navigate to the project directory where the pyproject.toml file is located and run:
+Navigate to the project directory where the `pyproject.toml` file is located and run:
 
     poetry install
 
-Ensure that you are using a compatible Python version (>=3.9 and <4.0). You can check your Python version with:
+Ensure that you are using a compatible Python version `>=3.9 and <4.0`. You can check your Python version with:
 
        python --version
 
@@ -38,6 +38,8 @@ Ensure that you are using a compatible Python version (>=3.9 and <4.0). You can 
 To start the MLflow UI to make experiments, run the following command:
 
     mlflow ui --backend-store-uri sqlite:///mlflow.db --port 5000
+
+Running on http://127.0.0.1:5000
 
 Training a new experiment:
 
@@ -62,10 +64,10 @@ Open your web browser and go to http://localhost:8501 to access the Streamlit ap
 
 ## Troubleshooting
 
-### - Streamlit/python Version Mismatch (3.9.7)
+### - Streamlit/python Version Mismatch `3.9.7`
 
 *Solution:*
 
-- Install a compatible version (3.9.8) using pyenv
+- Install a compatible version `3.9.8` using pyenv
 - Reinstall all dependecies with Poetry
--  Add Streamlit with Poetry
+- Add Streamlit with Poetry
