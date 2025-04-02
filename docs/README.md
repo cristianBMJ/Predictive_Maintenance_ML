@@ -5,17 +5,14 @@ This prototype predicts Turbine Energy Yield (TEY) using a machine learning mode
 
 ## Table of Contents
 
+- [Prerequisite](#prerequisite)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
-- [Trobleshooting](#troubleshooting)
-## Installation
+- [Troubleshooting](#troubleshooting)
 
-### Clone the Repository 
-
-    git clone https://github.com/cristianBMJ/Predictive_Maintenance_ML.git
-    cd <repository_directory>
+##  Prerequisite
 
 ### Install Poetry
 
@@ -30,6 +27,15 @@ Navigate to the project directory where the `pyproject.toml` file is located and
 Ensure that you are using a compatible Python version `>=3.9 and <4.0`. You can check your Python version with:
 
        python --version
+
+## Installation
+
+### Clone the Repository 
+
+    git clone https://github.com/cristianBMJ/Predictive_Maintenance_ML.git
+    cd <repository_directory>
+
+
 
 ## Usage 
 
@@ -55,7 +61,9 @@ Running on http://127.0.0.1:5001
 ### Run Streamlit app
 
 
-After installing the dependencies, make mlflow experiment and save best model in Flask API, you can start the Streamlit application. Use the following command:
+After installing the dependencies, trained an experiment in MLflow,
+log the best model, and serve it through the Flask API before launching 
+the Streamlit app.
 
        streamlit run streamlit_app/streamlit_app.py
 
