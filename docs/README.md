@@ -12,6 +12,19 @@ This prototype predicts Turbine Energy Yield (TEY) using a machine learning mode
 - [Trobleshooting](#troubleshooting)
 ## Installation
 
+### Clone the Repository 
+    `bash
+    git clone https://github.com/cristianBMJ/Predictive_Maintenance_ML.git
+    cd <repository_directory>
+    `
+### Install Poetry
+    If you haven't installed Poetry yet, you can do so by running:
+    `bash
+    curl -sSL https://install.python-poetry.org | python3 -
+    `
+
+## Usage 
+
 ## Troubleshooting
 
 ### - Streamlit/python Version Mismatch (3.9.7)
