@@ -26,7 +26,7 @@ Navigate to the project directory where the `pyproject.toml` file is located and
 
 Ensure that you are using a compatible Python version `>=3.9 and <4.0`. You can check your Python version with:
 
-       python --version
+    python --version
 
 ## Installation
 
