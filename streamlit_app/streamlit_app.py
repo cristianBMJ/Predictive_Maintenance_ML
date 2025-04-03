@@ -16,7 +16,7 @@ def get_random_row(df):
 feature_names = ['AT', 'AP', 'AH', 'AFDP', 'GTEP', 'TIT', 'TAT', 'CDP', 'CO', 'NOX', 'Year', 'TAT_TIT_Ratio']
 
 
-st.title("Predictive Maintenance Model")
+st.title("Predict Turbine Energy Yield (TEY) ")
 
 
 # Load your dataset here
