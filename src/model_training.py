@@ -84,14 +84,18 @@ class ModelTrainer:
         self.evaluate(model, name="XGBRegressor")
 
     def evaluate(self, model, name):
+        """
+        Evaluate sckit-learn models
+        """
+
         logging.info("Evaluating model: %s", name)
         y_pred = model.predict(self.X_test)
         rmse = mean_squared_error(self.y_test, y_pred, squared=False)
         r2 = r2_score(self.y_test, y_pred)
         logging.info('RMSE: %s', rmse)
         logging.info('R2 Score: %s', r2)
-        print('RMSE: %s', rmse)
-        print('R2 Score: %s', r2)
+        print('RMSE: ', rmse)
+        print('R2 Score: ', r2)
         # mlflow.log_metric(f"RMSE {name} ", rmse)
         # mlflow.log_metric(f"R2 Score {name} ", r2)
         input_example = self.X_train.loc[[0]]
@@ -100,11 +104,18 @@ class ModelTrainer:
 
 
     def evaluate_nn(self, model, name):
+        """
+        Evaluate SimpleModel (Neural Network in Pytorch)
+        """
+
+        logging.info("Evaluating model: %s", name)
         # Evaluate
         with torch.no_grad():
             y_pred = model(self.X_test).numpy()
         rmse = mean_squared_error(self.y_test, y_pred, squared=False)
         r2 = r2_score(self.y_test, y_pred)
+        logging.info('RMSE: %s', rmse)
+        logging.info('R2 Score: %s', r2)
         print('RMSE:', rmse )
         print('R2 Score:', r2 )
         
@@ -112,7 +123,9 @@ class ModelTrainer:
 
 
     def train_neural_network(self):
-
+        """
+        Preprocessing features to train SimpleModel in pytorch
+        """
         # Separate features (X) and target (y) for train and test
         self.X_train = self.X_train.values  # Convert DataFrame to numpy array
         self.y_train = self.y_train.values

@@ -31,7 +31,7 @@ if option == "Input From Dataset":  # New option for random input
     
     features, y_real = get_random_row(df)
 
-    st.write(y_real)
+    st.write(y_real )
 
     input_data = {name: int(value)  if name == 'Year' 
                   else value 
@@ -47,7 +47,7 @@ if option == "Input From Dataset":  # New option for random input
         
         if response.status_code == 200:
             prediction = response.json()['prediction']
-            st.success(f"Prediction: {np.around(prediction, 2)}")
+            st.success(f"Prediction TEY: {np.around(prediction, 2)}")
 
             st.success(f"\n Error: { np.around( np.abs((prediction - y_real )) * 100 / y_real , 3)} %")
 
