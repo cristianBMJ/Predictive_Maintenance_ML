@@ -3,10 +3,15 @@ import requests
 import pandas as pd  # Import pandas to handle data
 import numpy as np
 
-def get_random_row(data):
-    random_row = data.sample(n=1)  # Get a random row from the dataset
+def get_random_row(df):
+    
+    random_row = df.sample(n=1)  # Get a random row from the dataset
+    target = random_row['TEY']
+    random_row = random_row.drop( columns='TEY')
     features = random_row.values.flatten().tolist()  # Flatten the row to a list
-    return features
+    target_value = target.iloc[0]    # Flatten the row to a list
+
+    return features, target_value
 
 feature_names = ['AT', 'AP', 'AH', 'AFDP', 'GTEP', 'TIT', 'TAT', 'CDP', 'CO', 'NOX', 'Year', 'TAT_TIT_Ratio']
 
@@ -17,16 +22,16 @@ st.title("Predictive Maintenance Model")
 # Load your dataset here
 df= pd.read_csv("/home/cris/workaplace/Predictive_Maintenance_ML/data/processed_data.csv")  # Update with your dataset path
 
-data = df.drop( columns='TEY')
 
 option = st.selectbox("Choose input method:", ["Input From Dataset", "Manual Input", "Select Row", "List" ])  # Added "Random Input"
     
 if option == "Input From Dataset":  # New option for random input
 
-    st.button("Get random row:")
+    st.button("Get random sample:")
     
-    features = get_random_row(data)
+    features, y_real = get_random_row(df)
 
+    st.write(y_real)
 
     input_data = {name: int(value)  if name == 'Year' 
                   else value 
@@ -42,8 +47,11 @@ if option == "Input From Dataset":  # New option for random input
         
         if response.status_code == 200:
             prediction = response.json()['prediction']
-            st.success(f"Prediction: {np.around( prediction, 2)}")
-        else:
+            st.success(f"Prediction: {np.around(prediction, 2)}")
+
+            st.success(f"\n Error: { np.around( np.abs((prediction - y_real )) * 100 / y_real , 3)} %")
+
+        else:          
             st.error("Error in prediction")
 
 elif option == "Select Row":
