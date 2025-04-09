@@ -69,6 +69,10 @@ the Streamlit app.
 
 Open your web browser and go to http://localhost:8501 to access the Streamlit application.
 
+![alt text](/docs/streamlit_1.png)
+
+![alt text](/docs/streamlit_2.png)
+
 
 ## Troubleshooting
 
