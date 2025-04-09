@@ -35,6 +35,13 @@ def load_and_process_data():
 
     gt['TAT_TIT_Ratio'] = gt['TAT'] / gt['TIT']
 
-    # gt.to_csv('""" """  """ """data/processed_data.csv', index=False)
+        # Split the data into 85% and 15%
+    split_index = int(len(gt) * 0.85)
+    gt_85 = gt.iloc[:split_index]  # First dataset (85%)
+    gt_15 = gt.iloc[split_index:]   # Second dataset (15%)
 
-    return gt
+    gt_85.to_csv('data/processed_data_training.csv', index=False)
+
+    gt_15.to_csv('data/processed_data_evaluation.csv', index=False)
+
+

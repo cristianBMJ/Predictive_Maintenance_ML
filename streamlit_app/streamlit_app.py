@@ -16,11 +16,11 @@ def get_random_row(df):
 feature_names = ['AT', 'AP', 'AH', 'AFDP', 'GTEP', 'TIT', 'TAT', 'CDP', 'CO', 'NOX', 'Year', 'TAT_TIT_Ratio']
 
 
-st.title("Predict Turbine Energy Yield (TEY) ")
+st.title("Predict Turbine Energy Yield (TEY) v1.0")
 
 
 # Load your dataset here
-df= pd.read_csv("/home/cris/workaplace/Predictive_Maintenance_ML/data/processed_data.csv")  # Update with your dataset path
+df= pd.read_csv("/home/cris/workaplace/Predictive_Maintenance_ML/data/processed_data_evaluation.csv")  # Update with your dataset path
 
 
 option = st.selectbox("Choose input method:", ["Input From Dataset", "Manual Input", "Select Row", "List" ])  # Added "Random Input"

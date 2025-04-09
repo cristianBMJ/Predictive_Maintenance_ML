@@ -26,8 +26,8 @@ from models.neural_model import SimpleModel, RMSELoss
 
 from model_evaluation import save_model, save_model_mlflow
 
-data = load_and_process_data()
-
+#processing data
+load_and_process_data()
 
 import os
 print("Current Working Directory:", os.getcwd())
