@@ -71,7 +71,7 @@ Open your web browser and go to http://localhost:8501 to access the Streamlit ap
 
 ![alt text](/docs/streamlit_1.png)
 
-![alt text](/docs/streamlit_2.png)
+![alt text](/docs/streamlit_2.1.png)
 
 
 ## Troubleshooting
