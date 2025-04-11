@@ -28,6 +28,7 @@ jobs:
           export PATH="$HOME/.local/bin:$PATH"  # Add Poetry to PATH
           poetry install  # Install dependencies using Poetry
       
+      
       # - name: Run tests
       #   run: |
       #     pytest  # Run your tests using pytest
